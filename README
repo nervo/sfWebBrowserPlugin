@@ -173,11 +173,12 @@ Changelog
 
 ### Trunk
 
-### 2009-03-06 | Trunk
+### 2009-04-22 | 1.1.1 Stable
 
   * francois: Fixed README syntax for parameters array
+  * bmeynell: Fixed custom options in `sfCurlAdapter`
   
-### 2009-09-23 | 1.1.0 Stable
+### 2008-09-23 | 1.1.0 Stable
 
   * francois: Translated README to Markdown
   * francois: Added support for custom options in `sfCurlAdapter`
