@@ -173,6 +173,12 @@ Changelog
 
 ### Trunk
 
+### 2009-05-12 | 1.1.2 Stable
+
+  * francois: Fixed sfCurlAdapter destructor
+  * francois: Fixed sf1.2 compatibility issue for custom exception
+  * francois: Fixed a few limit case bugs and made the tests pass
+  
 ### 2009-04-22 | 1.1.1 Stable
 
   * francois: Fixed README syntax for parameters array

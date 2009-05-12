@@ -10,10 +10,10 @@
   <email>francois.zaninotto@symfony-project.com</email>
   <active>yes</active>
  </lead>
- <date>2009-04-22</date>
+ <date>2009-05-12</date>
  <version>
-   <release>1.1.1</release>
-   <api>1.1.1</api>
+   <release>1.1.2</release>
+   <api>1.1.2</api>
  </version>
  <stability>
   <release>stable</release>
@@ -58,6 +58,24 @@
 
  <changelog>
    <release>
+     <version>
+       <release>1.1.2</release>
+       <api>1.1.2</api>
+     </version>
+     <stability>
+      <release>stable</release>
+      <api>stable</api>
+     </stability>
+     <license uri="http://www.symfony-project.com/license">MIT license</license>
+     <date>2009-05-12</date>
+     <license>MIT</license>
+     <notes>
+       * francois: Fixed sfCurlAdapter destructor
+       * francois: Fixed sf1.2 compatibility issue for custom exception
+       * francois: Fixed a few limit case bugs and made the tests pass
+     </notes>
+   </release>
+   <release>
       <version>
         <release>1.1.1</release>
         <api>1.1.1</api>
@@ -74,7 +92,7 @@
         * bmeynell: Fixed custom options in `sfCurlAdapter`
       </notes>
     </release>
-   <release>
+    <release>
       <version>
         <release>1.1.0</release>
         <api>1.1.0</api>
