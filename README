@@ -156,12 +156,12 @@ Installation
 
 * Install the plugin
 
-        $ symfony plugin-install http://plugins.symfony-project.com/sfWebBrowserPlugin
-
+        > php symfony plugin:install sfWebBrowserPlugin  # for symfony 1.1 and 1.2
+        > php symfony plugin-install http://plugins.symfony-project.com/sfWebBrowserPlugin    # for symfony 1.0
 
 * Clear the cache to enable the autoloading to find the new class
 
-        $ symfony cc
+        > symfony cc
 
 Known limitations
 -----------------
