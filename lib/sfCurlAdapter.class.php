@@ -223,7 +223,7 @@ class sfCurlAdapter
     return $browser;
   }
 
-  public function __destroy()
+  public function __destruct()
   {
     curl_close($this->curl);
   }
