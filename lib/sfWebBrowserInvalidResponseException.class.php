@@ -16,7 +16,10 @@ class sfWebBrowserInvalidResponseException extends sfException
    */
   public function __construct($message = null, $code = 0)
   {
-    $this->setName('sfWebBrowserInvalidResponseException');
+    if(method_exists($this, 'setName'))
+    {
+      $this->setName('sfWebBrowserInvalidResponseException');
+    }
     parent::__construct($message, $code);
   }
 }
