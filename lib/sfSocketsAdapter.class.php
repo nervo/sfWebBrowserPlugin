@@ -41,7 +41,7 @@ class sfSocketsAdapter
    */
   public function call($browser, $uri, $method = 'GET', $parameters = array(), $headers = array())
   {
-    $m_headers = array_merge($browser->getDefaultRequestHeaders(), $browser->initializeRequestHeaders($headers));
+    $m_headers = array_merge(array('Content-Type' => 'application/x-www-form-urlencoded'), $browser->getDefaultRequestHeaders(), $browser->initializeRequestHeaders($headers));
     $request_headers = $browser->prepareHeaders($m_headers);
 
     $url_info = parse_url($uri);
@@ -62,14 +62,7 @@ class sfSocketsAdapter
     $request .= $request_headers;
     $request .= "Connection: Close\r\n";
 
-    if ($method == 'POST')
-    {
-      $request .= 'Content-Length: '.strlen($body)."\r\n";
-      $request .= "Content-type: application/x-www-form-urlencoded\r\n";
-      $request .= "\r\n";
-      $request .= http_build_query($parameters, '', '&');
-    }
-    else if ($method == 'PUT')
+    if ($method == 'PUT' && is_array($parameters) && array_key_exists('file', $parameters))
     {
       $fp = fopen($parameters['file'], 'rb');
       $sent = 0;
@@ -90,8 +83,15 @@ class sfSocketsAdapter
       }
       fclose($fp);
     }
+    elseif ($method == 'POST' || $method == 'PUT')
+    {
+      $body = is_array($parameters) ? http_build_query($parameters, '', '&') : $parameters;
+      $request .= 'Content-Length: '.strlen($body)."\r\n";
+      $request .= "\r\n";
+      $request .= $body;
+    }
 
-    $request = "\r\n";
+    $request .= "\r\n";
 
     fwrite($socket, $request);
 
@@ -110,6 +110,7 @@ class sfSocketsAdapter
     $status_line = array_shift($response_lines);
 
     $start_body = false;
+    $response_headers = array();
     for($i=0; $i<count($response_lines); $i++)
     {
       // grab body
@@ -134,12 +135,15 @@ class sfSocketsAdapter
         $response_headers[] = $response_lines[$i];
       }
     }
-
+    
+    $browser->setResponseHeaders($response_headers);
+    
     // grab status code
     preg_match('@(\d{3})@', $status_line, $status_code);
-
-    $browser->setResponseHeaders($response_headers);
-    $browser->setResponseCode($status_code[1]);
+    if(isset($status_code[1]))
+    {
+      $browser->setResponseCode($status_code[1]);
+    }
     $browser->setResponseText(trim($response_body));
 
     return $browser;

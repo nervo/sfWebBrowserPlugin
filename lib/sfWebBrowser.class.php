@@ -556,8 +556,15 @@ class sfWebBrowser
    */  
   public function setResponseCode($firstLine)
   {
-    preg_match('/\d{3}/', $firstLine, $matches); 
-    $this->responseCode = $matches[0];
+    preg_match('/\d{3}/', $firstLine, $matches);
+    if(isset($matches[0]))
+    {
+      $this->responseCode = $matches[0];
+    }
+    else
+    {
+      $this->responseCode = '';
+    }
     
     return $this;
   }  
@@ -614,7 +621,7 @@ class sfWebBrowser
   {
     preg_match('/<body.*?>(.*)<\/body>/si', $this->getResponseText(), $matches);
 
-    return $matches[1];
+    return isset($matches[1]) ? $matches[1] : '';
   }
   
   /**
@@ -793,11 +800,11 @@ class sfWebBrowser
     {
       $encodings = explode(',', $headers['Accept-Encoding']);
     }
-    if (function_exists('gzinflate'))
+    if (function_exists('gzinflate') && !in_array('gzip', $encodings))
     {
       $encodings[] = 'gzip';
     }
-    if (function_exists('gzuncompress'))
+    if (function_exists('gzuncompress') && !in_array('deflate', $encodings))
     {
       $encodings[] = 'deflate';
     }

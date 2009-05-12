@@ -41,7 +41,7 @@ class sfFopenAdapter
    */  
   public function call($browser, $uri, $method = 'GET', $parameters = array(), $headers = array())
   {    
-    $m_headers = array_merge($browser->getDefaultRequestHeaders(), $browser->initializeRequestHeaders($headers));
+    $m_headers = array_merge(array('Content-Type' => 'application/x-www-form-urlencoded'), $browser->getDefaultRequestHeaders(), $browser->initializeRequestHeaders($headers));
     $request_headers = $browser->prepareHeaders($m_headers);
     
     // Read the response from the server
