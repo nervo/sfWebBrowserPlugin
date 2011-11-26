@@ -213,7 +213,7 @@ class sfCurlAdapter
     
     if (curl_errno($this->curl))
     {
-      throw new Exception(curl_error($this->curl));
+      throw new Exception(curl_error($this->curl), curl_errno($this->curl));
     }
 
     $requestInfo = curl_getinfo($this->curl);
