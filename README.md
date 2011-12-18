@@ -70,14 +70,6 @@ You can access the response in various formats, at your convenience:
     $myDomCssSelector = $b->getResponseDomCssSelector();
     $mySimpleXml      = $b->getResponseXml();
 
-You can also interact with the response with the `setFields()` and `click()` methods.
-
-    [php]
-    $b->get('http://www.example.com/login')
-      ->setField('user', 'foobar')
-      ->setField('password', 'barbaz')
-      ->click('submit');
-
 The browser supports HTTP and HTTPS requests, proxies, redirects, and timeouts.
 
 Gzip and deflate content-encoded response bodies are also supported, provided that you have the [http://php.net/zlib zlib extention] enabled.
@@ -172,6 +164,12 @@ Changelog
 ---------
 
 ### Trunk
+
+### 2011-12-XX | 1.2 Beta
+  
+  * jeromemacias: Do not save into stack by default (fixed memory leak)
+  * jeromemacias: Removed interaction with response (click and setField methods)
+  * COil: Added the CURL error number in the returned exception
 
 ### 2009-05-12 | 1.1.2 Stable
 
