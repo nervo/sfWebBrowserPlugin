@@ -1,0 +1,14 @@
+all:
+  parameters:
+    sf_web_browser.default_headers: []
+    sf_web_browser.adapter_class: ~
+    sf_web_browser.adapter_options: []
+
+  services:
+    sf_web_browser:
+      class: sfWebBrowser
+      arguments:
+        - %sf_web_browser.default_headers%
+        - %sf_web_browser.adapter_class%
+        - %sf_web_browser.adapter_options%
+
