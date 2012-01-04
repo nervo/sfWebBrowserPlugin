@@ -6,7 +6,7 @@ The `sfWebBrowserPlugin` proposes an HTTP client capable of making web requests.
 Possible uses
 -------------
 
- * Querying a Web service 
+ * Querying a Web service
  * Monitoring a Website
  * Mashup of content from several websites
  * Aggregation of RSS feeds
@@ -79,7 +79,7 @@ Adapters
 
 The browser can use various adapters to perform the requests, and uses the following selection order by default:
 
- * `sfCurlAdapter`: Uses [Curl](http://php.net/curl) to fetch pages. This adapter is a lot faster than `sfFopenAdapter`, however PHP must be compiled with the `with-curl` option, and the `curl` extension must be enabled in `php.ini` (which is rarely the case by default) for it to work. 
+ * `sfCurlAdapter`: Uses [Curl](http://php.net/curl) to fetch pages. This adapter is a lot faster than `sfFopenAdapter`, however PHP must be compiled with the `with-curl` option, and the `curl` extension must be enabled in `php.ini` (which is rarely the case by default) for it to work.
 
  * `sfFopenAdapter`: Uses [`fopen()`](http://php.net/fopen ) to fetch pages. `fopen()` can take an URL as a parameter provided that PHP is compiled with sockets support, and `allow_url_fopen` is defined to `true` in `php.ini`. This is the case in most PHP distributions, so the default adapter should work in almost every platform. On the other hand, the compatibility has a cost: this adapter is slow.
 
@@ -166,22 +166,23 @@ Changelog
 ### Trunk
 
 ### 2011-12-XX | 1.2 Beta
-  
+
   * jeromemacias: Do not save into stack by default (fixed memory leak)
   * jeromemacias: Removed interaction with response (click and setField methods)
   * COil: Added the CURL error number in the returned exception
+  * GromNaN: Inject sf_web_browser as a service (require symfony1 fork with service container)
 
 ### 2009-05-12 | 1.1.2 Stable
 
   * francois: Fixed sfCurlAdapter destructor
   * francois: Fixed sf1.2 compatibility issue for custom exception
   * francois: Fixed a few limit case bugs and made the tests pass
-  
+
 ### 2009-04-22 | 1.1.1 Stable
 
   * francois: Fixed README syntax for parameters array
   * bmeynell: Fixed custom options in `sfCurlAdapter`
-  
+
 ### 2008-09-23 | 1.1.0 Stable
 
   * francois: Translated README to Markdown
@@ -204,7 +205,7 @@ Changelog
   * francois: Fixed a bug with `get()` when `arg_separator.output` is not set to '&' in `php.ini` (patch from river.bright)
   * francois: Fixed a bug with `get()` when query string is already present in the url (based on a patch from Jeff Merlet)
   * francois: Fixed auto-adapter decision in `sfWebBrowser::__construct()`
-  
+
 ### 2007-03-08 | 1.0.0 stable
 
   * francois: Added auto-adapter decision in `sfWebBrowser::__construct()`
@@ -233,7 +234,7 @@ Changelog
 ### 2007-02-16 | 0.9.4 Beta
 
  * francois: Refactored the browser to make it multi-adapter
- * francois: '''BC break''' constructor signature changed : `new sfWebBrowser(array $headers, string $adapter_class, array $adapter_options)` 
+ * francois: '''BC break''' constructor signature changed : `new sfWebBrowser(array $headers, string $adapter_class, array $adapter_options)`
  * francois: Fixed notice when trying to retrieve inexistent header
  * francois: Fixed header case normalization
  * francois: Transformed setResponseXXX() methods to public
@@ -245,23 +246,23 @@ Changelog
  * tristan: Added support for gzip and deflate.
  * tristan: Possibility to pass default request headers to sfWebBrowser's constructor
  * tristan: "Accept-Encoding" header is automatically set depending on PHP capabilities
- * tristan: Fixed problems with request and response headers case 
+ * tristan: Fixed problems with request and response headers case
  * tristan: Renamed "browser options" to "adapter options" (http://www.symfony-project.com/forum/index.php/m/21635/)
  * tristan: '''BC break''' constructor signature changed : `new sfWebBrowser(array $headers, array $adapter_options)`
- * tristan: Unit tested POST requests  
+ * tristan: Unit tested POST requests
  * tristan: Changed way httpd headers are stored internally
  * tristan: Fixed small bug in `getResponseBody()`
  * francois: Fixed unit test for malformed headers
- 
+
 ### 2007-02-09 | 0.9.2 Beta
 
  * francois: Fixed notice with `getResponseXML()`
- 
+
 ### 2007-02-08 | 0.9.1 Beta
 
  * francois: Fixed notice with some headers
  * francois: Added license and copyright
- 
+
 ### 2007-02-08 | 0.9.0 Beta
 
  * francois: Initial release
