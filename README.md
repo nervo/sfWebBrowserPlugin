@@ -26,49 +26,68 @@ Features
 
 The `sfWebBrowser` class makes web requests based on a URI:
 
-    [php]
-    $b = new sfWebBrowser();
-    $b->get('http://www.example.com/');
-    $res = $b->getResponseText();
+```php
+<?php
+
+$b = new sfWebBrowser();
+$b->get('http://www.example.com/');
+$res = $b->getResponseText();
+```
 
 The usual methods of the `sfTestBrowser` also work there, with the fluid interface.
 
-    [php]
-    // Inline
-    $b->get('http://www.example.com/')->get('http://www.google.com/')->back()->reload();
-    // More readable
-    $b->get('http://www.example.com/')
-      ->get('http://www.google.com/')
-      ->back()
-      ->reload();
+```php
+<?php
+
+// Inline
+$b->get('http://www.example.com/')->get('http://www.google.com/')->back()->reload();
+
+// More readable
+$b->get('http://www.example.com/')
+  ->get('http://www.google.com/')
+  ->back()
+  ->reload();
+```
 
 The browser accepts absolute and relative URIs
 
-    [php]
-    $b->get('http://www.example.com/test.html');
-    $b->get('test.html');
+```php
+<?php
+
+$b->get('http://www.example.com/test.html');
+$b->get('test.html');
+```
 
 The `get()` method accepts parameters either as a query string, or as an associative array.
 
-    [php]
-    $b->get('http://www.example.com/test.php?foo=bar');
-    $b->get('http://www.example.com/test.php', array('foo' => 'bar'));
+```php
+<?php
+
+$b->get('http://www.example.com/test.php?foo=bar');
+$b->get('http://www.example.com/test.php', array('foo' => 'bar'));
+```
 
 POST, PUT and DELETE requests are also supported.
 
-    [php]
-    $b->post('http://www.example.com/test.php', array('foo' => 'bar'));
-    $b->put('http://www.example.com/test.php', array('foo' => 'bar'));
-    $b->delete('http://www.example.com/test.php', array('foo' => 'bar'));
+```php
+<?php
+
+$b->post('http://www.example.com/test.php', array('foo' => 'bar'));
+$b->put('http://www.example.com/test.php', array('foo' => 'bar'));
+$b->delete('http://www.example.com/test.php', array('foo' => 'bar'));
+```
 
 You can access the response in various formats, at your convenience:
 
-    [php]
-    $myString         = $b->getResponseText();
-    $myString         = $b->getResponseBody(); // drop the <head> part
-    $myDomDocument    = $b->getResponseDom();
-    $myDomCssSelector = $b->getResponseDomCssSelector();
-    $mySimpleXml      = $b->getResponseXml();
+```php
+<?php
+
+$myString         = $b->getResponseText();
+$myString         = $b->getResponseBody(); // drop the <head> part
+$myDomDocument    = $b->getResponseDom();
+$myDomCssSelector = $b->getResponseDomCssSelector();
+$mySimpleXml      = $b->getResponseXml();
+```
 
 The browser supports HTTP and HTTPS requests, proxies, redirects, and timeouts.
 
@@ -80,33 +99,39 @@ Adapters
 The browser can use various adapters to perform the requests, and uses the following selection order by default:
 
  * `sfCurlAdapter`: Uses [Curl](http://php.net/curl) to fetch pages. This adapter is a lot faster than `sfFopenAdapter`, however PHP must be compiled with the `with-curl` option, and the `curl` extension must be enabled in `php.ini` (which is rarely the case by default) for it to work.
-
  * `sfFopenAdapter`: Uses [`fopen()`](http://php.net/fopen ) to fetch pages. `fopen()` can take an URL as a parameter provided that PHP is compiled with sockets support, and `allow_url_fopen` is defined to `true` in `php.ini`. This is the case in most PHP distributions, so the default adapter should work in almost every platform. On the other hand, the compatibility has a cost: this adapter is slow.
-
  * `sfSocketsAdapter`: Uses [`fsockopen()`](http://php.net/fsockopen) to fetch pages.
 
 Alternatively, you can specify an adapter explicitly when you create a new browser object, as follows:
 
-    [php]
-    // use default adapter, i.e. sfCurlAdapter
-    $b = new sfWebBrowser(array());
-    // use sfFopenAdapter
-    $b = new sfWebBrowser(array(), 'sfFopenAdapter');
+```php
+<?php
+
+// use default adapter, i.e. sfCurlAdapter
+$b = new sfWebBrowser(array());
+
+// use sfFopenAdapter
+$b = new sfWebBrowser(array(), 'sfFopenAdapter');
+```
 
 Currenly, `sfCurlAdapter` offers slightly more functionality than the other adapters. Namely, it supports multipart file uploads and cookies, which means you can login to a site as well as upload files via forms.
 
-    [php]
-    // upload files via a form
-    $b = new sfWebBrowser();
-    $b->post($url_of_form, array(
-      'file_field' => '/path/to/my/local/file.jpg'
-    ));
-    // login to a website
-    $b = new sfWebBrowser(array(), 'sfCurlAdapter', array('cookies' => true));
-    $b->post($url_of_login_form, array(
-      'user_field' => $username,
-      'pass_field' => $password
-    ));
+```php
+<?php
+
+// upload files via a form
+$b = new sfWebBrowser();
+$b->post($url_of_form, array(
+  'file_field' => '/path/to/my/local/file.jpg'
+));
+
+// login to a website
+$b = new sfWebBrowser(array(), 'sfCurlAdapter', array('cookies' => true));
+$b->post($url_of_login_form, array(
+  'user_field' => $username,
+  'pass_field' => $password
+));
+```
 
 Full examples are available in the unit tests.
 
@@ -115,45 +140,55 @@ Error Handling
 
 `sfWebBrowser` distinguishes to types of error: adapter errors and response errors. Thus, `sfWebBrowser` calls should be run this way :
 
-    [php]
-    $b = new sfWebBrowser();
-    try
-    {
-      if (!$b->get($url)->responseIsError())
-      {
-        // Successful response (eg. 200, 201, etc)
-      }
-      else
-      {
-        // Error response (eg. 404, 500, etc)
-      }
-    }
-    catch (Exception $e)
-    {
-      // Adapter error (eg. Host not found)
-    }
+```php
+<?php
+
+$b = new sfWebBrowser();
+try
+{
+  if (!$b->get($url)->responseIsError())
+  {
+    // Successful response (eg. 200, 201, etc)
+  }
+  else
+  {
+    // Error response (eg. 404, 500, etc)
+  }
+}
+catch (Exception $e)
+{
+  // Adapter error (eg. Host not found)
+}
+```
 
 Besides, you should always remember that the response contents may contain incorrect code. Consider it as 'tainted', and therefore always use the [escaping](http://www.symfony-project.com/book/trunk/07-Inside-the-View-Layer#Output%20Escaping) when outputting it to a template.
 
-    [php]
-    // In the action
-    $this->title = (string) $b->getResponseXml()->body->h1
+```php
+<?php
+// In the action
+$this->title = (string) $b->getResponseXml()->body->h1
 
-    // In the template
-    <?php echo $title // dangerous ?>
-    <?php echo $sf_data->get('title') // correct ?>
+// In the template
+?>
+<?php echo $title // dangerous ?>
+<?php echo $sf_data->get('title') // correct ?>
+```
 
 Installation
 ------------
 
 * Install the plugin
 
-        > php symfony plugin:install sfWebBrowserPlugin  # for symfony 1.1 and 1.2
-        > php symfony plugin-install http://plugins.symfony-project.com/sfWebBrowserPlugin    # for symfony 1.0
+```bash
+$ php symfony plugin:install sfWebBrowserPlugin  # for symfony 1.1 and 1.2
+$ php symfony plugin-install http://plugins.symfony-project.com/sfWebBrowserPlugin    # for symfony 1.0
+```
 
 * Clear the cache to enable the autoloading to find the new class
 
-        > symfony cc
+```bash
+$ symfony cc
+```
 
 Known limitations
 -----------------
