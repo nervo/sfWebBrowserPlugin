@@ -1,5 +1,5 @@
 {
-    "name": "lexpress/sfWebBrowserPlugin",
+    "name": "lexpress/sf-web-browser-plugin",
     "description": "HTTP client capable of making web requests now available as service.",
     "keywords": ["symfony1", "curl"],
     "type": "symfony1-plugin",
