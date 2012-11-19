@@ -31,7 +31,8 @@ class sfWebBrowser
     $responseDomCssSelector  = null,
     $responseXml             = null,
     $fields                  = array(),
-    $urlInfo                 = array();
+    $urlInfo                 = array(),
+    $followRedirect          = true;
 
   public function __construct($defaultHeaders = array(), $adapterClass = null, $adapterOptions = array())
   {
@@ -52,6 +53,18 @@ class sfWebBrowser
     }
     $this->defaultHeaders = $this->fixHeaders($defaultHeaders);
     $this->adapter = new $adapterClass($adapterOptions);
+  }
+
+  /**
+   * Set followRedirect
+   *
+   * @param boolean $value
+   */
+  public function setFollowRedirect($value)
+  {
+    $this->followRedirect = $value;
+
+    return $this;
   }
 
   // Browser methods
@@ -231,9 +244,12 @@ class sfWebBrowser
     $browser = $this->adapter->call($this, $uri, $method, $parameters, $headers);
 
     // redirect support
-    if ((in_array($browser->getResponseCode(), array(301, 307)) && in_array($method, array('GET', 'HEAD'))) || in_array($browser->getResponseCode(), array(302,303)))
+    if ($this->followRedirect)
     {
-      $this->call($browser->getResponseHeader('Location'), 'GET', array(), $headers);
+      if ((in_array($browser->getResponseCode(), array(301, 307)) && in_array($method, array('GET', 'HEAD'))) || in_array($browser->getResponseCode(), array(302,303)))
+      {
+        $this->call($browser->getResponseHeader('Location'), 'GET', array(), $headers);
+      }
     }
 
     return $browser;
